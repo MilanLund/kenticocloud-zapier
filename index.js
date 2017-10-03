@@ -1,29 +1,28 @@
-const kenticocloud = require('./triggers/kenticocloud');
+const kentico_cloud1 = require('./searches/kentico_cloud');
 
-// We can roll up all our behaviors in an App.
+// Now we can roll up all our behaviors in an App.
 const App = {
   // This is just shorthand to reference the installed dependencies you have. Zapier will
   // need to know these before we can upload
   version: require('./package.json').version,
   platformVersion: require('zapier-platform-core').version,
 
-  // beforeRequest & afterResponse are optional hooks into the provided HTTP client
   beforeRequest: [
   ],
 
   afterResponse: [
   ],
 
-  // If you want to define optional resources to simplify creation of triggers, searches, creates - do that here!
   resources: {
   },
 
   // If you want your trigger to show up, you better include it here!
   triggers: {
-    [kenticocloud.key]: kenticocloud // new line of code
   },
+
   // If you want your searches to show up, you better include it here!
   searches: {
+    [kentico_cloud1.key]: kentico_cloud1
   },
 
   // If you want your creates to show up, you better include it here!
