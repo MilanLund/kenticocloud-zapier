@@ -1,5 +1,5 @@
 /*
- * The core doce file for the Kentico Cloud - Zapier connector
+ * The core codee file for the Kentico Cloud - Zapier connector
  * Milan Lund, 2017
  * */
 
@@ -13,7 +13,7 @@ const getElement = (z, bundle) => {
       payloadOperation = bundle.inputData.payloadOperation.trim(), // Operation on content item obtained from webhook
       payloadDataItems = transformDataItems(bundle.inputData.payloadDataItems); // Information about updated content item from webhook
 
-  // Request to Kentico Cloud endpoint assembled from obtained data
+  // Request Kentico Cloud endpoint assembled from obtained data
   const getItem = z.request('https://deliver.kenticocloud.com/' + projectId + '/items?system.type=' + contentType + '&system.codename=' + searchItem(payloadDataItems, 'codename'), {
       params: {
         projectId: projectId,
