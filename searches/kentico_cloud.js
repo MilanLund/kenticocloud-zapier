@@ -23,7 +23,7 @@ const getElement = (z, bundle) => {
   });
 
   // Make the request in case content item gets published and is wanted content type
-  if ((payloadOperation === 'publish') && (contentType == searchItem(payloadDataItems, 'type'))) {
+  if ((payloadOperation === 'publish') && (contentType === searchItem(payloadDataItems, 'type'))) {
     return getItem.then((response) => {
       var items = JSON.parse(response.content).items;
       return makePropertiesAccessible(items, payloadDataItems);
@@ -64,7 +64,7 @@ const searchItem = (arr, itemName) => {
   var returnValue = '';
 
   arr.forEach((value, index) => {
-    if (arr[index][0] == itemName) {
+    if (arr[index][0] === itemName) {
       returnValue = arr[index][1];
     }
   });
