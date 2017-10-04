@@ -1,4 +1,4 @@
-const kentico_cloud1 = require('./searches/kentico_cloud');
+const kentico_cloud = require('./searches/kentico_cloud');
 
 // Now we can roll up all our behaviors in an App.
 const App = {
@@ -22,7 +22,7 @@ const App = {
 
   // If you want your searches to show up, you better include it here!
   searches: {
-    [kentico_cloud1.key]: kentico_cloud1
+    [kentico_cloud.key]: kentico_cloud
   },
 
   // If you want your creates to show up, you better include it here!
