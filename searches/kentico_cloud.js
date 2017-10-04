@@ -1,5 +1,5 @@
 /*
- * The core codee file for the Kentico Cloud - Zapier connector
+ * The core code file for the Kentico Cloud - Zapier connector
  * Milan Lund, 2017
  * */
 
