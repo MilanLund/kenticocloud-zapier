@@ -47,9 +47,11 @@
   const typesField = (z, bundle) => {
       var choices = {};
 
+      // If "Project ID" field is not empty       
       if (bundle.inputData.projectId && bundle.inputData.projectId !== '') {
           const getTypes = z.request('https://deliver.kenticocloud.com/' + bundle.inputData.projectId + '/types');
 
+          // Get types from Kentico Cloud project and display drop-down field with those types in the Zapier UI
           return getTypes.then((response) => {
               var items = JSON.parse(response.content).types;
 
@@ -61,6 +63,7 @@
           });
       }
 
+      // Display empty drop-down list if "Project ID" field is empty 
       return [{key: 'contentType', label: 'Content type name (Static value)', required: true, choices: choices}];     
     };
   
@@ -77,9 +80,9 @@
   
     operation: {
       inputFields: [
-          {key: 'payload', label: 'Payload data (Raw Body value)', type: 'string', required: true},
-          {key: 'projectId', label: 'Project ID (Static value)', type: 'string', required: true, altersDynamicFields: true},
-          typesField 
+          {key: 'payload', label: 'Payload data (Raw Body value)', type: 'string', required: true}, // Dynamic payload 
+          {key: 'projectId', label: 'Project ID (Static value)', type: 'string', required: true, altersDynamicFields: true}, // Kentico Cloud Project ID
+          typesField // Dynamic field that depends on the "projectId" field value
       ],
       perform: getElement
     }
