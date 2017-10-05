@@ -45,7 +45,6 @@
 
   // Dynamic field that gets content types based on projectId
   const typesField = (z, bundle) => {
-      z.console.log(bundle);
       var choices = {};
 
       if (bundle.inputData.projectId && bundle.inputData.projectId !== '') {
