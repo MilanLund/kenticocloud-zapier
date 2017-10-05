@@ -1,12 +1,11 @@
-/*
- *
+/**
  * The core code file for the Kentico Cloud - Zapier connector
  * Milan Lund, 2017
- * 
- * */
+ */
 
-
- // Processes data obtained from webhook and requests Kentico Cloud for content item
+/**
+ * Processes data obtained from webhook and requests Kentico Cloud for content item
+ */
  const getElement = (z, bundle) => {
   // Input from Zapier UI
   var payload = JSON.parse(bundle.inputData.payload); // Parse payload 
@@ -24,7 +23,9 @@
       }
   });
   
-  // Make the request in case content item gets published and is wanted content type
+  /** 
+   * Make the request in case content item gets published and is wanted content type
+   */
   if ((payloadOperation === 'publish') && (contentType == payloadDataItems.type)) {
     return getItem.then((response) => {
       var items = JSON.parse(response.content).items;
@@ -35,8 +36,9 @@
   }
 };
   
-  
-// Helper method that fulfills Zapier's requirement to have id as a top-level property of obtained objects
+/**   
+ * Helper method that fulfills Zapier's requirement to have id as a top-level property of obtained objects
+ */
 const makePropertiesAccessible = (items, payloadDataItems) => {
   items.forEach((value, index) => {
     items[index]['id'] = index;
@@ -45,13 +47,14 @@ const makePropertiesAccessible = (items, payloadDataItems) => {
   return items;
 };
 
-
-// Dynamic field that gets content types based on projectId
+/** 
+ * Dynamic field that gets content types based on projectId
+ */
 const typesField = (z, bundle) => {
   var choices = {};
 
   // If "Project ID" field is not empty       
-  if (bundle.inputData.projectId && bundle.inputData.projectId !== '') {
+  if (bundle.inputData.projectId) {
     const getTypes = z.request('https://deliver.kenticocloud.com/' + bundle.inputData.projectId + '/types');
 
     // Get types from Kentico Cloud project and display drop-down field with those types in the Zapier UI
@@ -60,16 +63,17 @@ const typesField = (z, bundle) => {
       items.forEach((value, index) => {
         choices[items[index].system.codename] = items[index].system.name;
       });
-      return [{key: 'contentType', label: 'Content type name (Static value)', required: true, choices: choices}];    
+      return [{key: 'contentType', label: 'Content type name (Static value)', required: true, choices: choices, helpText: 'Select one of the content types that should be watched.'}];    
     });
   }
 
   // Display empty drop-down list if "Project ID" field is empty 
-  return [{key: 'contentType', label: 'Content type name (Static value)', required: true, choices: choices}];     
+  return [{key: 'contentType', label: 'Content type name (Static value)', required: true, helpText: 'Insert codename of content type that should be watched or click the "Refresh fields" button below to retrieve types available in your Kentico Cloud project.'}];     
 };
   
-
-// Zapier object for it's internal needs
+/**
+ * Zapier object for it's internal needs
+ */
 module.exports = {
   key: 'kentico_cloud',
   noun: 'Kentico Cloud',
@@ -79,8 +83,8 @@ module.exports = {
   },
   operation: {
     inputFields: [
-      {key: 'payload', label: 'Payload data (Raw Body value)', type: 'string', required: true}, // Dynamic payload 
-      {key: 'projectId', label: 'Project ID (Static value)', type: 'string', required: true, altersDynamicFields: true}, // Kentico Cloud Project ID
+      {key: 'payload', label: 'Payload data (Raw Body value)', type: 'string', required: true, helpText: 'Select "Raw Body" item from the drop-down list.'}, // Dynamic payload 
+      {key: 'projectId', label: 'Project ID (Static value)', type: 'string', required: true, altersDynamicFields: true, helpText: 'Insert Project ID from your Kentico Cloud project.'}, // Kentico Cloud Project ID
       typesField // Dynamic field that depends on the "projectId" field value
     ],
     perform: getElement
