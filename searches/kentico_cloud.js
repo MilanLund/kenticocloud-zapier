@@ -15,7 +15,7 @@
       payloadDataItems = payload.data.items[0]; // Information about updated content item from webhook
   
   // Request to Kentico Cloud endpoint assembled from obtained data
-  const getItem = z.request('https://deliver.kenticocloud.com/' + projectId + '/items?system.type=' + contentType + '&system.codename=' + payloadDataItems.codename, {
+  const getItem = z.request('https://deliver.kenticocloud.com/' + projectId + '/items/' + payloadDataItems.codename, {
       params: {
         projectId: projectId,
         contentType: contentType,
@@ -28,23 +28,16 @@
    */
   if ((payloadOperation === 'publish') && (contentType == payloadDataItems.type)) {
     return getItem.then((response) => {
-      var items = JSON.parse(response.content).items;
-      return makePropertiesAccessible(items, payloadDataItems);
+      var item = JSON.parse(response.content).item,
+          response = [];
+
+      item.id = 0;
+      response.push(item); 
+      return response; // Zapier takes array as input
     });
   } else {
     return []; // In Zapier Task History the operation becomes halted
   }
-};
-  
-/**   
- * Helper method that fulfills Zapier's requirement to have id as a top-level property of obtained objects
- */
-const makePropertiesAccessible = (items, payloadDataItems) => {
-  items.forEach((value, index) => {
-    items[index]['id'] = index;
-  });
-
-  return items;
 };
 
 /** 
