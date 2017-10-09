@@ -26,7 +26,7 @@
   /** 
    * Make the request in case content item gets published and is wanted content type
    */
-  if ((payloadOperation === 'publish') && (contentType == payloadDataItems.type)) {
+  if ((payloadOperation === 'publish') && (contentType === payloadDataItems.type)) {
     return getItem.then((response) => {
       var item = JSON.parse(response.content).item,
           response = [];
@@ -72,12 +72,12 @@ module.exports = {
   noun: 'Kentico Cloud',
   display: {
     label: 'Kentico Cloud Content',
-    description: 'Retrieve content items from Kentico Cloud storage.'
+    description: 'Find content items in the Kentico Cloud storage.'
   },
   operation: {
     inputFields: [
       {key: 'payload', label: 'Payload data (Raw Body value)', type: 'string', required: true, helpText: 'Select "Raw Body" item from the drop-down list.'}, // Dynamic payload 
-      {key: 'projectId', label: 'Project ID (Static value)', type: 'string', required: true, altersDynamicFields: true, helpText: 'Insert Project ID from your Kentico Cloud project.'}, // Kentico Cloud Project ID
+      {key: 'projectId', label: 'Project ID (Static value)', type: 'string', required: true, altersDynamicFields: true, helpText: 'Copy Project ID from your Kentico Cloud project and paste it here.'}, // Kentico Cloud Project ID
       typesField // Dynamic field that depends on the "projectId" field value
     ],
     perform: getElement
